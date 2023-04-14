@@ -1,9 +1,9 @@
 import Text from "./Text";
-import { Pressable } from "react-native";
+import { Link } from 'react-router-native'
 
-const AppBarTab = ({ text }) =>
-  <Pressable>
-    <Text color='white' fontSize='subheading'>{ text }</Text>
-  </Pressable>
+const AppBarTab = ({ text, linkTo }) =>
+  <Link to={ linkTo }>
+    <Text color='white' fontSize='subheading' style={{ paddingHorizontal: 8 }}>{ text }</Text>
+  </Link>
 
 export default AppBarTab
