@@ -24,27 +24,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     justifyContent: 'space-between'
   },
+  avatarImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 6
+  },
+  infoLine: {
+    paddingVertical: 3,
+    paddingEnd: 32,
+  },
   chip: {
     backgroundColor: theme.colors.primary,
     padding: 6,
     borderRadius: 6
-  },
-  infoItem: {
-    ...layout.stack,
-    justifyContent: 'space-between'
-  },
-  infoLine: {
-    paddingVertical: 3
   },
   infoBar: {
     ...layout.row,
     marginTop: 12,
     justifyContent: 'space-around'
   },
-  avatarImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 6
+  infoBarItem: {
+    ...layout.stack,
+    justifyContent: 'space-between'
   }
 })
 
@@ -79,7 +80,7 @@ const Chip = ({ text }) =>
   </View>
 
 const InfoItem = ({ name, value }) =>
-  <View style={ styles.infoItem }>
+  <View style={ styles.infoBarItem }>
     <Text size='subheading' fontWeight='bold'>{ value }</Text>
     <Text size='subheading' color='textSecondary'>{ name }</Text>
   </View>
