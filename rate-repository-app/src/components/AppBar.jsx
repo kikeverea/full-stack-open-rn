@@ -9,10 +9,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     marginTop: Constants.statusBarHeight,
-    padding: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 20,
     backgroundColor: theme.colors.primary
   },
-  // ...
 });
 
 const AppBar = () => {
