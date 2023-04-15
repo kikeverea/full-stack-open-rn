@@ -1,5 +1,6 @@
 import {Formik} from 'formik'
 import SignInForm from './SignInForm'
+import * as yup from 'yup'
 
 const initialValues = {
   username: '',
@@ -10,8 +11,25 @@ const onSubmit = (values) => {
   console.log(values)
 }
 
+const validationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .required()
+    .min(4)
+    .trim(),
+  password: yup
+    .string()
+    .required()
+    .min(4)
+    .trim()
+})
+
 const SignIn = () =>
-  <Formik initialValues={ initialValues } onSubmit={ onSubmit }>
+  <Formik
+    initialValues={ initialValues }
+    onSubmit={ onSubmit }
+    validationSchema={ validationSchema }
+  >
     { ({ handleSubmit }) => <SignInForm onSubmit={ handleSubmit } /> }
   </Formik>
 

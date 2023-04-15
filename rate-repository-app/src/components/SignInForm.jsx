@@ -5,12 +5,8 @@ import Text from './Text'
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16
-  },
-  input: {
-    backgroundColor: 'white',
-    padding: 8,
-    borderRadius: 6
+    padding: 16,
+    backgroundColor: 'white'
   },
   submit: {
     backgroundColor: theme.colors.primary,
@@ -27,9 +23,9 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const SignInForm = ({ onSubmit }) =>
   <View style={ styles.container }>
-    <FormikTextInput name='username' placeholder='username' style={ styles.input }/>
+    <FormikTextInput name='username' placeholder='username'/>
     <ItemSeparator />
-    <FormikTextInput name='password' placeholder='password' secureTextEntry={ true } style={ styles.input }/>
+    <FormikTextInput name='password' placeholder='password' secureTextEntry={ true }/>
     <ItemSeparator />
     <Pressable onPress={ onSubmit }>
       <Text color='white' style={ styles.submit }>sign in</Text>
