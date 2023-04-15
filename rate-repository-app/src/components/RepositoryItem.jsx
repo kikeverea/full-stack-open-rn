@@ -2,7 +2,7 @@ import { View, Image, StyleSheet } from 'react-native'
 import Text from "./Text";
 import theme from "../theme";
 
-const layout = StyleSheet.create({
+const layout = {
   stack: {
     display: 'flex',
     flexDirection: 'column'
@@ -11,7 +11,7 @@ const layout = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row'
   }
-})
+}
 
 const styles = StyleSheet.create({
   repositoryItem: {
