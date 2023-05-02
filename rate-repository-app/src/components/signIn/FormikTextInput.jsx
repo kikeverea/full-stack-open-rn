@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native'
 import { useField } from 'formik'
 
 import TextInput from './TextInputNoStyle'
-import Text from './Text'
-import theme from '../theme'
+import Text from '../Text'
+import theme from '../../theme'
 
 const baseInput = {
   padding: 8,
