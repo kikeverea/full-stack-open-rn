@@ -1,14 +1,11 @@
 import {Formik} from 'formik'
 import SignInForm from './SignInForm'
 import * as yup from 'yup'
+import useSignIn from '../../hooks/useSignIn'
 
 const initialValues = {
   username: '',
   password: ''
-}
-
-const onSubmit = (values) => {
-  console.log(values)
 }
 
 const validationSchema = yup.object().shape({
@@ -24,13 +21,33 @@ const validationSchema = yup.object().shape({
     .trim()
 })
 
-const SignIn = () =>
-  <Formik
-    initialValues={ initialValues }
-    onSubmit={ onSubmit }
-    validationSchema={ validationSchema }
-  >
-    { ({ handleSubmit }) => <SignInForm onSubmit={ handleSubmit } /> }
-  </Formik>
+const SignIn = () => {
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values, { resetForm }) => {
+    console.log(values)
+
+    const { username, password } = values
+
+    try {
+      const { data } = await signIn({ username, password })
+      console.log(data)
+      resetForm()
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={ onSubmit }
+      validationSchema={validationSchema}
+    >
+      {({handleSubmit}) => <SignInForm onSubmit={handleSubmit}/>}
+    </Formik>
+  )
+}
 
 export default SignIn
