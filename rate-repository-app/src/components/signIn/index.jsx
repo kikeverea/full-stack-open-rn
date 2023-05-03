@@ -2,6 +2,7 @@ import {Formik} from 'formik'
 import SignInForm from './SignInForm'
 import * as yup from 'yup'
 import useSignIn from '../../hooks/useSignIn'
+import AuthStorage from '../../utils/authenticateStorage'
 
 const initialValues = {
   username: '',
@@ -31,12 +32,17 @@ const SignIn = () => {
 
     try {
       const { data } = await signIn({ username, password })
-      console.log(data)
       resetForm()
+      await storeToken(data)
     }
     catch (e) {
       console.log(e)
     }
+  }
+
+  const storeToken = async (accessToken) => {
+    const storage = new AuthStorage()
+    await storage.setAccessToken(accessToken)
   }
 
   return (
