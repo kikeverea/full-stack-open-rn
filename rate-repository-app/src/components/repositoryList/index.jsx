@@ -1,16 +1,9 @@
-import { FlatList, View, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 
 import RepositoryItem from "./RepositoryItem";
 import useRepositories from "../../hooks/useRepositories";
 import {REPOSITORIES} from '../../graphql/queries'
-
-const styles = StyleSheet.create({
-  separator: {
-    height: 10,
-  },
-});
-
-const ItemSeparator = () => <View style={styles.separator} />;
+import RepositoryListContainer from "./RepositoryListContainer";
 
 const RepositoryList = () => {
 
@@ -22,14 +15,7 @@ const RepositoryList = () => {
       : repositories.edges.map(edge => edge.node)
 
   return (
-    <FlatList
-      style={{ padding: 8 }}
-      data={ repositoryNodes }
-      ItemSeparatorComponent={ ItemSeparator }
-      renderItem={
-        ({ item }) => <RepositoryItem repository={ item }/>
-      }
-    />
+    <RepositoryListContainer repositories={ repositoryNodes }/>
   );
 };
 
