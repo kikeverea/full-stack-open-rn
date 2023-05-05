@@ -1,22 +1,14 @@
-import { FlatList } from 'react-native';
-
-import RepositoryItem from "./RepositoryItem";
-import useRepositories from "../../hooks/useRepositories";
-import {REPOSITORIES} from '../../graphql/queries'
-import RepositoryListContainer from "./RepositoryListContainer";
+import useRepositories from '../../hooks/useRepositories'
+import { REPOSITORIES } from '../../graphql/queries'
+import RepositoryListContainer from './RepositoryListContainer'
 
 const RepositoryList = () => {
 
-  const { repositories, loading } = useRepositories(REPOSITORIES)
-
-  const repositoryNodes =
-    loading
-      ? []
-      : repositories.edges.map(edge => edge.node)
+  const { repositories } = useRepositories(REPOSITORIES)
 
   return (
-    <RepositoryListContainer repositories={ repositoryNodes }/>
+    <RepositoryListContainer repositories={ repositories }/>
   );
 };
 
-export default RepositoryList;
+export default RepositoryList

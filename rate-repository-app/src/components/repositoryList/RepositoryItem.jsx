@@ -49,6 +49,16 @@ const styles = StyleSheet.create({
   }
 })
 
+const RepositoryItem = ({ repository }) =>
+  <View testID='repositoryItem' style={ styles.repositoryItem }>
+    <RepositoryItemHeader
+      fullName={ repository.fullName }
+      description={ repository.description }
+      language={ repository.language }
+      imageUrl={ repository.ownerAvatarUrl } />
+    <RepositoryItemInfoBar repository={ repository }/>
+  </View>
+
 const RepositoryItemHeader = ({ fullName, description, language, imageUrl }) =>
   <View style={ layout.row }>
     <Image
@@ -91,16 +101,6 @@ const InfoBarItem = ({ name, value }) =>
   <View style={ styles.infoBarItem }>
     <Text size='subheading' fontWeight='bold'>{ value }</Text>
     <Text size='subheading' color='textSecondary'>{ name }</Text>
-  </View>
-
-const RepositoryItem = ({ repository }) =>
-  <View style={ styles.repositoryItem }>
-    <RepositoryItemHeader
-      fullName={ repository.fullName }
-      description={ repository.description }
-      language={ repository.language }
-      imageUrl={ repository.ownerAvatarUrl } />
-    <RepositoryItemInfoBar repository={ repository }/>
   </View>
 
 export default RepositoryItem
