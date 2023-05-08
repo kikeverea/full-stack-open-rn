@@ -8,7 +8,7 @@ const useRepositories = () => {
   })
 
   return loading
-    ? { repositories: [], loading }
+    ? { repositories: null, loading }
     : { repositories: data ? data.repositories : [], loading}
 }
 
