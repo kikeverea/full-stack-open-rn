@@ -1,7 +1,4 @@
-import { Pressable, View, StyleSheet } from 'react-native'
-import FormikTextInput from './FormikTextInput'
-import theme from '../../theme'
-import Text from '../Text'
+import FormikTextInput from '../input/FormikTextInput'
 import ItemSeparator from '../ItemSeparator'
 
 const styles = StyleSheet.create({
