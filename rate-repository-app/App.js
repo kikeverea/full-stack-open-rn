@@ -6,6 +6,7 @@ import createApolloClient from "./src/utils/apolloClient"
 import Main from './src/components/Main'
 import AuthStorage from './src/utils/authenticateStorage'
 import AuthStorageContext from './src/contexts/AuthStorageContext'
+import Toast from 'react-native-toast-message'
 
 const authStorage = new AuthStorage()
 const apolloClient = createApolloClient(authStorage)
@@ -21,6 +22,7 @@ const App = () => {
         </ApolloProvider>
       </NativeRouter>
       <StatusBar style='auto'/>
+      <Toast/>
     </>
   )
 }
