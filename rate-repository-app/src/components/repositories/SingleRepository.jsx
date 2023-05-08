@@ -1,10 +1,13 @@
 import {Pressable, StyleSheet, View} from 'react-native'
-import RepositoryItem from './RepositoryItem'
 import {useParams} from 'react-router-native'
 import {useQuery} from '@apollo/client'
+import * as Linking from 'expo-linking'
+
+import RepositoryItem from './RepositoryItem'
+import Text from '../Text'
 import theme from '../../theme'
 import {REPOSITORY} from '../../graphql/queries'
-import Text from '../Text'
+import Toast from 'react-native-toast-message'
 
 const SingleRepository = () => {
 
@@ -25,14 +28,25 @@ const SingleRepository = () => {
   const repositoryId = useParams()
   const { data } = useQuery(REPOSITORY, { variables: repositoryId})
 
-  const openInGithub = () => {
-    console.log('opening repository with id:', repositoryId)
+  const repository = data && data.repository ? data.repository : null
+
+  const openInGithub = async () => {
+    try {
+      await Linking.openURL(repository.url)
+    }
+    catch (e) {
+      Toast.show({
+        type: 'error',
+        text1: 'Could not open the url',
+        position: 'bottom'
+      })
+    }
   }
 
   return(
-    data.repository
+    repository
       ? <View style={ styles.container }>
-          <RepositoryItem repository={ data.repository }/>
+          <RepositoryItem repository={ repository }/>
           <Pressable onPress={ openInGithub }>
             <Text color='white' style={ styles.button }>
               Open in GitHub
