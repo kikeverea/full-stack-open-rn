@@ -5,6 +5,7 @@ export const REPOSITORIES = gql`
     repositories {
       edges {
         node {
+          id,
           fullName,
           description,
           language,
@@ -15,6 +16,21 @@ export const REPOSITORIES = gql`
           ratingAverage
         }
       }
+    }
+  }
+`
+export const REPOSITORY = gql`
+  query Repository($repositoryId: ID!) {
+    repository(id: $repositoryId) {
+      fullName,
+      description,
+      language,
+      ownerAvatarUrl,
+      stargazersCount,
+      forksCount,
+      reviewCount,
+      ratingAverage,
+      url
     }
   }
 `

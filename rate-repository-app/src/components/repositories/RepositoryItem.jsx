@@ -1,6 +1,7 @@
-import { View, Image, StyleSheet } from 'react-native'
+import {View, Image, StyleSheet, Pressable} from 'react-native'
 import Text from "../Text";
 import theme from "../../theme";
+import {useNavigate} from 'react-router-native'
 
 const layout = {
   stack: {
@@ -49,15 +50,24 @@ const styles = StyleSheet.create({
   }
 })
 
-const RepositoryItem = ({ repository }) =>
-  <View testID='repositoryItem' style={ styles.repositoryItem }>
-    <RepositoryItemHeader
-      fullName={ repository.fullName }
-      description={ repository.description }
-      language={ repository.language }
-      imageUrl={ repository.ownerAvatarUrl } />
-    <RepositoryItemInfoBar repository={ repository }/>
-  </View>
+const RepositoryItem = ({ repository }) => {
+
+  const navigate = useNavigate()
+  const goToRepository = () => navigate(`/${ repository.id }`)
+
+  return(
+    <Pressable onPress={ goToRepository }>
+      <View testID="repositoryItem" style={styles.repositoryItem}>
+        <RepositoryItemHeader
+          fullName={repository.fullName}
+          description={repository.description}
+          language={repository.language}
+          imageUrl={repository.ownerAvatarUrl}/>
+        <RepositoryItemInfoBar repository={repository}/>
+      </View>
+    </Pressable>
+  )
+}
 
 const RepositoryItemHeader = ({ fullName, description, language, imageUrl }) =>
   <View style={ layout.row }>
