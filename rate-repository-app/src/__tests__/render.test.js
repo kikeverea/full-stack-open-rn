@@ -1,6 +1,6 @@
 import {render, fireEvent, screen, within, waitFor, act} from '@testing-library/react-native'
 import '@testing-library/jest-dom/extend-expect'
-import RepositoryListContainer from '../components/repositoryList/RepositoryListContainer'
+import RepositoryListContainer from '../components/repositories/RepositoryListContainer'
 import SignInContainer from "../components/signIn/SignInContainer";
 
 const repositories = {
