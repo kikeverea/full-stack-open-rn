@@ -2,6 +2,8 @@ import {View, Image, StyleSheet, Pressable} from 'react-native'
 import Text from "../Text";
 import theme from "../../theme";
 import {useNavigate} from 'react-router-native'
+import * as Linking from 'expo-linking'
+import Toast from 'react-native-toast-message'
 
 const layout = {
   stack: {
@@ -47,13 +49,33 @@ const styles = StyleSheet.create({
   infoBarItem: {
     ...layout.stack,
     justifyContent: 'space-between'
+  },
+  linkButton: {
+    backgroundColor: theme.colors.primary,
+    padding: 12,
+    marginHorizontal: 8,
+    marginTop: 8,
+    borderRadius: 6,
+    textAlign: 'center'
   }
 })
 
-const RepositoryItem = ({ repository }) => {
+const RepositoryItem = ({ repository, showLinkButton }) => {
 
   const navigate = useNavigate()
   const goToRepository = () => navigate(`/${ repository.id }`)
+  const openInGithub = async () => {
+    try {
+      await Linking.openURL(repository.url)
+    }
+    catch (e) {
+      Toast.show({
+        type: 'error',
+        text1: 'Could not open the url',
+        position: 'bottom'
+      })
+    }
+  }
 
   return(
     <Pressable onPress={ goToRepository }>
@@ -64,6 +86,13 @@ const RepositoryItem = ({ repository }) => {
           language={repository.language}
           imageUrl={repository.ownerAvatarUrl}/>
         <RepositoryItemInfoBar repository={repository}/>
+        { showLinkButton &&
+          <Pressable onPress={ openInGithub }>
+            <Text color="white" style={styles.linkButton}>
+              Open in GitHub
+            </Text>
+          </Pressable>
+        }
       </View>
     </Pressable>
   )
