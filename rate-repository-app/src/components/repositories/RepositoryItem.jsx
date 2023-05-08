@@ -4,6 +4,7 @@ import theme from "../../theme";
 import {useNavigate} from 'react-router-native'
 import * as Linking from 'expo-linking'
 import Toast from 'react-native-toast-message'
+import ActionButton from '../ActionButton'
 
 const layout = {
   stack: {
@@ -51,12 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   linkButton: {
-    backgroundColor: theme.colors.primary,
-    padding: 12,
-    marginHorizontal: 8,
     marginTop: 8,
-    borderRadius: 6,
-    textAlign: 'center'
   }
 })
 
@@ -87,11 +83,7 @@ const RepositoryItem = ({ repository, showLinkButton }) => {
           imageUrl={repository.ownerAvatarUrl}/>
         <RepositoryItemInfoBar repository={repository}/>
         { showLinkButton &&
-          <Pressable onPress={ openInGithub }>
-            <Text color="white" style={styles.linkButton}>
-              Open in GitHub
-            </Text>
-          </Pressable>
+          <ActionButton style={ styles.linkButton } onPress={ openInGithub } label='Open in GitHub'/>
         }
       </View>
     </Pressable>
