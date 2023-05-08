@@ -2,6 +2,7 @@ import { Pressable, View, StyleSheet } from 'react-native'
 import FormikTextInput from './FormikTextInput'
 import theme from '../../theme'
 import Text from '../Text'
+import ItemSeparator from '../ItemSeparator'
 
 const styles = StyleSheet.create({
   container: {
@@ -13,13 +14,8 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 6,
     textAlign: 'center'
-  },
-  separator: {
-    height: 10
   }
 })
-
-const ItemSeparator = () => <View style={styles.separator} />;
 
 const SignInForm = ({ onSubmit }) =>
   <View style={ styles.container }>
