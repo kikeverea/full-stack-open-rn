@@ -1,60 +1,92 @@
-import {Pressable, StyleSheet, View} from 'react-native'
-import {useParams} from 'react-router-native'
-import {useQuery} from '@apollo/client'
-import * as Linking from 'expo-linking'
+import { useParams } from 'react-router-native'
+import { useQuery } from '@apollo/client'
+import { FlatList, View, StyleSheet, Text } from 'react-native'
+import { format } from 'date-fns'
 
+import { REPOSITORY, REVIEWS } from '../../graphql/queries'
 import RepositoryItem from './RepositoryItem'
-import Text from '../Text'
 import theme from '../../theme'
-import {REPOSITORY} from '../../graphql/queries'
-import Toast from 'react-native-toast-message'
+import ItemSeparator from '../ItemSeparator'
+
+const styles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: 8,
+    backgroundColor: 'white'
+  },
+  rating: {
+    padding: 8,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderColor: theme.colors.primary,
+    borderWidth: 2,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: theme.colors.primary,
+    fontWeight: 'bold'
+  },
+  review: {
+    display: 'flex',
+    flexDirection: 'column',
+    paddingStart: 16,
+    paddingEnd: 60
+  },
+  reviewTitle: {
+    fontWeight: 'bold'
+  },
+  reviewDate: {
+    color: theme.colors.textSecondary
+  },
+  reviewText: {
+    paddingVertical: 8
+  }
+})
 
 const SingleRepository = () => {
 
-  const styles = StyleSheet.create({
-    container: {
-      backgroundColor: 'white',
-      paddingVertical: 16
-    },
-    button: {
-      backgroundColor: theme.colors.primary,
-      padding: 12,
-      marginHorizontal: 8,
-      borderRadius: 6,
-      textAlign: 'center'
-    }
-  })
-
   const repositoryId = useParams()
-  const { data } = useQuery(REPOSITORY, { variables: repositoryId})
 
-  const repository = data && data.repository ? data.repository : null
+  const { data: repositoryResult } = useQuery(REPOSITORY, { variables: repositoryId})
+  const { data: reviewsResult } = useQuery(REVIEWS, { variables: repositoryId})
 
-  const openInGithub = async () => {
-    try {
-      await Linking.openURL(repository.url)
-    }
-    catch (e) {
-      Toast.show({
-        type: 'error',
-        text1: 'Could not open the url',
-        position: 'bottom'
-      })
-    }
-  }
+  const repository =
+    repositoryResult && repositoryResult.repository
+      ? repositoryResult.repository
+      : null
 
-  return(
-    repository
-      ? <View style={ styles.container }>
-          <RepositoryItem repository={ repository }/>
-          <Pressable onPress={ openInGithub }>
-            <Text color='white' style={ styles.button }>
-              Open in GitHub
-            </Text>
-          </Pressable>
+  if (repository == null)
+    return null
+
+  const reviews =
+    reviewsResult && reviewsResult.repository
+      ? reviewsResult.repository.reviews.edges.map(edge => edge.node)
+      : []
+
+  return (
+    <FlatList
+      data={ reviews }
+      renderItem={ ({ item }) => <ReviewItem review={ item }/>}
+      keyExtractor={({ id }) => id}
+      ListHeaderComponent={ <RepositoryItem repository={ repository } showLinkButton={ true }/> }
+    />
+  )
+}
+
+const ReviewItem = ({ review }) => {
+  return (
+    <>
+      <ItemSeparator />
+      <View style={ styles.container }>
+        <Text style={ styles.rating }>{ review.rating }</Text>
+        <View style={ styles.review }>
+          <Text style={ styles.reviewTitle }>{ review.user.username }</Text>
+          <Text style={ styles.reviewDate }>{ format(new Date(review.createdAt), 'dd.MM.yyyy') }</Text>
+          <Text style={ styles.reviewText }>{ review.text }</Text>
         </View>
-      :
-        <Text>Loading repo...</Text>
+      </View>
+    </>
   )
 }
 
