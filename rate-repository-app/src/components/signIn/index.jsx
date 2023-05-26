@@ -1,6 +1,7 @@
 import useSignIn from '../../hooks/useSignIn'
 import {useNavigate} from 'react-router-native'
 import SignInContainer from "./SignInContainer";
+import Toast from "react-native-toast-message";
 
 
 const SignIn = () => {
@@ -15,6 +16,11 @@ const SignIn = () => {
       navigate('/')
     }
     catch (e) {
+      Toast.show({
+        type: 'error',
+        text1: 'Wrong credentials',
+        position: 'bottom'
+      })
       console.log(e)
     }
   }
