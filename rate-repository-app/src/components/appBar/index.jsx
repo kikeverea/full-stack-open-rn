@@ -6,7 +6,6 @@ import theme from "../../theme";
 import {useApolloClient, useQuery} from '@apollo/client'
 import { AUTHENTICATED_USER } from '../../graphql/queries'
 import { useAuthStorage } from '../../hooks/useAuthStorage'
-import {useEffect, useState} from 'react'
 
 const styles = StyleSheet.create({
   container: {
@@ -31,11 +30,12 @@ const AppBar = () => {
   return (
     <View style={ styles.container }>
       <ScrollView horizontal={ true }>
+        <AppBarTab text='Repositories' linkTo='/'/>
+        <AppBarTab text='Create Review' linkTo='/create-review'/>
         { data && data.me ?
           <AppBarTab text={ 'Sign out' } linkTo='/sign-in' action={ signOut }/> :
           <AppBarTab text={ 'Sign in' } linkTo='/sign-in'/>
         }
-        <AppBarTab text='Repositories' linkTo='/'/>
       </ScrollView>
     </View>
   )

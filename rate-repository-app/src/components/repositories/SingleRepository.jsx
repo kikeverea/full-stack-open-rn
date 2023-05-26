@@ -48,7 +48,7 @@ const SingleRepository = () => {
 
   const repositoryId = useParams()
 
-  const { data: repositoryResult } = useQuery(REPOSITORY, { variables: repositoryId})
+  const { data: repositoryResult } = useQuery(REPOSITORY, { variables: repositoryId, fetchPolicy: 'cache-and-network'})
   const { data: reviewsResult } = useQuery(REVIEWS, { variables: repositoryId})
 
   const repository =
