@@ -27,14 +27,22 @@ const AppBar = () => {
     await apolloClient.resetStore()
   }
 
+  const isSignedIn = data && data.me
+
   return (
     <View style={ styles.container }>
       <ScrollView horizontal={ true }>
         <AppBarTab text='Repositories' linkTo='/'/>
-        <AppBarTab text='Create Review' linkTo='/create-review'/>
-        { data && data.me ?
-          <AppBarTab text={ 'Sign out' } linkTo='/sign-in' action={ signOut }/> :
-          <AppBarTab text={ 'Sign in' } linkTo='/sign-in'/>
+        { isSignedIn ?
+          <>
+            <AppBarTab text='Create Review' linkTo='/create-review'/>
+            <AppBarTab text='Sign out' linkTo='/sign-in' action={signOut}/>
+          </>
+          :
+          <>
+            <AppBarTab text='Sign in' linkTo='/sign-in'/>
+            <AppBarTab text='Sign up' linkTo='/sign-up'/>
+          </>
         }
       </ScrollView>
     </View>

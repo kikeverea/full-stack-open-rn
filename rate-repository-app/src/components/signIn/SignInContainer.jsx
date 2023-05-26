@@ -11,12 +11,12 @@ const validationSchema = yup.object().shape({
   username: yup
     .string()
     .required()
-    .min(4)
+    .min(1, '')
     .trim(),
   password: yup
     .string()
     .required()
-    .min(4)
+    .min(5, '')
     .trim()
 })
 
