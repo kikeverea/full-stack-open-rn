@@ -21,15 +21,16 @@ const SORT_LATEST =  {
 const RepositoryList = () => {
 
   const [sortBy, setSortBy] = useState(SORT_LATEST)
+  const [filter, setFilter] = useState('')
+  const { repositories } = useRepositories(sortBy, filter)
 
-  const { repositories } = useRepositories(sortBy)
+  const sortOptions = [ SORT_LATEST, SORT_HIGHEST_RATING, SORT_LOWEST_RATING ]
 
   return (
     <RepositoryListContainer
       repositories={ repositories }
-      sortBy={ sortBy }
-      onSortChange={ setSortBy }
-      sortOptions={[ SORT_LATEST, SORT_HIGHEST_RATING, SORT_LOWEST_RATING ]}/>
+      sort={{ sortBy, onSortChange: setSortBy, sortOptions }}
+      filter={{ filter, setFilter }}/>
   );
 };
 

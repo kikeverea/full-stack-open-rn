@@ -2,8 +2,11 @@ import RepositoryItem from './RepositoryItem'
 import { FlatList } from 'react-native'
 import ItemSeparator from '../ItemSeparator'
 import {Picker} from '@react-native-picker/picker'
+import {Searchbar} from 'react-native-paper'
 
-const ListHeader = ({ sortBy, onSortChange, sortOptions }) => {
+const SortOptionsPicker = ({ sort }) => {
+  const { sortBy, onSortChange, sortOptions } = sort
+
   return (
     <Picker
       selectedValue={ sortBy }
@@ -16,7 +19,17 @@ const ListHeader = ({ sortBy, onSortChange, sortOptions }) => {
   )
 }
 
-const RepositoryListContainer = ({ repositories, sortBy, onSortChange, sortOptions }) => {
+const FilterSearchBar = ({ filter }) => {
+  return (
+    <Searchbar
+      placeholder="Filter"
+      onChangeText={ filter.setFilter }
+      value={ filter.filter }
+    />
+  );
+}
+
+const RepositoryListContainer = ({ repositories, sort, filter }) => {
 
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
@@ -28,7 +41,10 @@ const RepositoryListContainer = ({ repositories, sortBy, onSortChange, sortOptio
       data={ repositoryNodes }
       ItemSeparatorComponent={ ItemSeparator }
       ListHeaderComponent={
-        <ListHeader sortBy={ sortBy } onSortChange={ onSortChange } sortOptions={ sortOptions }/>
+        <>
+          <FilterSearchBar filter={ filter }/>
+          <SortOptionsPicker sort={ sort }/>
+        </>
     }
       renderItem={
         ({item}) => <RepositoryItem repository={item}/>
