@@ -1,13 +1,35 @@
 import useRepositories from '../../hooks/useRepositories'
-import { REPOSITORIES } from '../../graphql/queries'
 import RepositoryListContainer from './RepositoryListContainer'
+import {useState} from 'react'
+
+const SORT_HIGHEST_RATING = {
+  sortBy: 'RATING_AVERAGE',
+  direction: 'DESC',
+  label: 'Highest rated repositories'
+}
+const SORT_LOWEST_RATING = {
+  sortBy: 'RATING_AVERAGE',
+  direction: 'ASC',
+  label: 'Lowest rated repositories'
+}
+const SORT_LATEST =  {
+  sortBy: 'CREATED_AT',
+  direction: 'DESC',
+  label: 'Latest repositories'
+}
 
 const RepositoryList = () => {
 
-  const { repositories } = useRepositories(REPOSITORIES)
+  const [sortBy, setSortBy] = useState(SORT_LATEST)
+
+  const { repositories } = useRepositories(sortBy)
 
   return (
-    <RepositoryListContainer repositories={ repositories }/>
+    <RepositoryListContainer
+      repositories={ repositories }
+      sortBy={ sortBy }
+      onSortChange={ setSortBy }
+      sortOptions={[ SORT_LATEST, SORT_HIGHEST_RATING, SORT_LOWEST_RATING ]}/>
   );
 };
 
