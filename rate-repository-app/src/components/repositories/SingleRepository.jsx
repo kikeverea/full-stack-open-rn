@@ -1,48 +1,10 @@
 import { useParams } from 'react-router-native'
 import { useQuery } from '@apollo/client'
-import { FlatList, View, StyleSheet, Text } from 'react-native'
-import { format } from 'date-fns'
 
 import { REPOSITORY, REVIEWS } from '../../graphql/queries'
 import RepositoryItem from './RepositoryItem'
-import theme from '../../theme'
-import ItemSeparator from '../ItemSeparator'
+import ReviewList from '../reviews/ReviewList'
 
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    padding: 8,
-    backgroundColor: 'white'
-  },
-  rating: {
-    padding: 8,
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    borderColor: theme.colors.primary,
-    borderWidth: 2,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    color: theme.colors.primary,
-    fontWeight: 'bold'
-  },
-  review: {
-    display: 'flex',
-    flexDirection: 'column',
-    paddingStart: 16,
-    paddingEnd: 60
-  },
-  reviewTitle: {
-    fontWeight: 'bold'
-  },
-  reviewDate: {
-    color: theme.colors.textSecondary
-  },
-  reviewText: {
-    paddingVertical: 8
-  }
-})
 
 const SingleRepository = () => {
 
@@ -61,32 +23,14 @@ const SingleRepository = () => {
 
   const reviews =
     reviewsResult && reviewsResult.repository
-      ? reviewsResult.repository.reviews.edges.map(edge => edge.node)
+      ? reviewsResult.repository.reviews.edges.map(edge => ({ ...edge.node, title: edge.node.user.username}))
       : []
 
   return (
-    <FlatList
-      data={ reviews }
-      renderItem={ ({ item }) => <ReviewItem review={ item }/>}
-      keyExtractor={({ id }) => id}
-      ListHeaderComponent={ <RepositoryItem repository={ repository } showLinkButton={ true }/> }
-    />
-  )
-}
-
-const ReviewItem = ({ review }) => {
-  return (
-    <>
-      <ItemSeparator />
-      <View style={ styles.container }>
-        <Text style={ styles.rating }>{ review.rating }</Text>
-        <View style={ styles.review }>
-          <Text style={ styles.reviewTitle }>{ review.user.username }</Text>
-          <Text style={ styles.reviewDate }>{ format(new Date(review.createdAt), 'dd.MM.yyyy') }</Text>
-          <Text style={ styles.reviewText }>{ review.text }</Text>
-        </View>
-      </View>
-    </>
+    <ReviewList
+      reviews={ reviews }
+      header={ <RepositoryItem repository={ repository } showLinkButton={ true }/>
+    }/>
   )
 }
 

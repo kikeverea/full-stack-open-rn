@@ -36,6 +36,7 @@ const AppBar = () => {
         { isSignedIn ?
           <>
             <AppBarTab text='Create Review' linkTo='/create-review'/>
+            <AppBarTab text='My Reviews' linkTo='/my-reviews'/>
             <AppBarTab text='Sign out' linkTo='/sign-in' action={signOut}/>
           </>
           :
