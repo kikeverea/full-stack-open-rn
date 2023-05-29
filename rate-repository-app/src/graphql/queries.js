@@ -1,19 +1,40 @@
 import { gql } from '@apollo/client'
 
+const REPOSITORY = gql `
+  fragment RepositoryFields on Repository {
+    id,
+    fullName,
+    description,
+    language,
+    ownerAvatarUrl,
+    stargazersCount,
+    forksCount,
+    reviewCount,
+    ratingAverage,
+    url
+  }
+`
+
+const REVIEW = gql `
+  fragment ReviewFields on Review {
+    id
+    text
+    rating
+    createdAt
+    user {
+      id
+      username
+    }
+  }
+`
+
 export const REPOSITORIES = gql`
+  ${ REPOSITORY }
   query Repositories ($orderBy: AllRepositoriesOrderBy!, $orderDirection: OrderDirection!, $searchKeyword: String!) {
     repositories (orderBy: $orderBy, orderDirection: $orderDirection, searchKeyword: $searchKeyword) {
       edges {
         node {
-          id,
-          fullName,
-          description,
-          language,
-          ownerAvatarUrl,
-          stargazersCount,
-          forksCount,
-          reviewCount,
-          ratingAverage
+          ...RepositoryFields
         }
       }
     }
@@ -21,29 +42,15 @@ export const REPOSITORIES = gql`
 `
 
 export const REPOSITORY_REVIEWS = gql`
+  ${ REPOSITORY}
+  ${ REVIEW }
   query Reviews($repositoryId: ID!) {
     repository(id: $repositoryId) {
-      id
-      fullName,
-      description,
-      language,
-      ownerAvatarUrl,
-      stargazersCount,
-      forksCount,
-      reviewCount,
-      ratingAverage,
-      url
+      ...RepositoryFields
       reviews {
         edges {
           node {
-            id
-            text
-            rating
-            createdAt
-            user {
-              id
-              username
-            }
+            ...ReviewFields
           }
         }
       }
@@ -52,6 +59,7 @@ export const REPOSITORY_REVIEWS = gql`
 `
 
 export const AUTHENTICATED_USER = gql`
+  ${ REVIEW }
   query getCurrentUser($includeReviews: Boolean = false) {
     me {
       id
@@ -59,17 +67,10 @@ export const AUTHENTICATED_USER = gql`
       reviews @include(if: $includeReviews) {
         edges {
           node {
-            id
-            text
-            rating
-            createdAt
+            ...ReviewFields
             repository {
               id
               fullName
-            }
-            user {
-              id
-              username
             }
           }
         }
