@@ -2,7 +2,8 @@ import {useQuery} from '@apollo/client'
 import { REPOSITORY_REVIEWS } from '../graphql/queries'
 
 const useRepository = (repositoryId) => {
-  const { data, loading } = useQuery(REPOSITORY_REVIEWS, { variables: repositoryId})
+  const { data, loading } = useQuery(REPOSITORY_REVIEWS,
+    { variables: repositoryId, fetchPolicy: 'cache-and-network' })
 
   if (loading)
     return null
