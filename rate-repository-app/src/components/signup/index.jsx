@@ -12,8 +12,10 @@ const Signup = () =>{
     const { username, password } = values
 
     try {
-      await signup({ username, password })
-      navigate('/')
+      const signedUp = await signup({ username, password })
+
+      if (signedUp)
+        navigate('/')
     }
     catch (e) {
       Toast.show({
