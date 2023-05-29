@@ -8,10 +8,17 @@ const UserReviews = () => {
 
   const navigate = useNavigate()
   const [reviews, refetchReviews] = useReviews()
-  const [deleteReview] = useDeleteReview({ onDelete: async () => await refetchReviews()})
+  const [deleteReview] = useDeleteReview()
 
   const showRepository = (repositoryId) => {
     navigate(`/${repositoryId}`)
+  }
+
+  const deleteWithId = async (reviewId) => {
+    const isDeleted = await deleteReview(reviewId)
+
+    if (isDeleted)
+      await refetchReviews()
   }
 
   const confirmAndDelete = (reviewId) => {
@@ -22,7 +29,7 @@ const UserReviews = () => {
       },
       {
         text: 'DELETE',
-        onPress: () => deleteReview(reviewId)
+        onPress: () => deleteWithId(reviewId)
       }
     ])
   }

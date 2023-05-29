@@ -1,7 +1,7 @@
 import {useMutation} from '@apollo/client'
 import {DELETE_REVIEW} from '../graphql/mutations'
 
-const useDeleteReview = ({ onDelete })=> {
+const useDeleteReview = ()=> {
 
   const [deleteReviewMutation, deleteResult] = useMutation(DELETE_REVIEW)
 
@@ -11,12 +11,11 @@ const useDeleteReview = ({ onDelete })=> {
         variables: { id: id }
       })
 
-      if (data.deleteReview) {
-        onDelete()
-      }
+      return data.deleteReview
     }
     catch (e) {
       console.error(e)
+      return false
     }
   }
 
