@@ -1,34 +1,19 @@
 import { useParams } from 'react-router-native'
-import { useQuery } from '@apollo/client'
-
-import { REPOSITORY, REVIEWS } from '../../graphql/queries'
 import RepositoryItem from './RepositoryItem'
 import ReviewList from '../reviews/ReviewList'
-
+import useRepository from '../../hooks/useRepository'
 
 const SingleRepository = () => {
 
   const repositoryId = useParams()
+  const repository = useRepository(repositoryId)
 
-  const { data: repositoryResult } = useQuery(REPOSITORY, { variables: repositoryId, fetchPolicy: 'cache-and-network'})
-  const { data: reviewsResult } = useQuery(REVIEWS, { variables: repositoryId})
-
-  const repository =
-    repositoryResult && repositoryResult.repository
-      ? repositoryResult.repository
-      : null
-
-  if (repository == null)
+  if (!repository)
     return null
-
-  const reviews =
-    reviewsResult && reviewsResult.repository
-      ? reviewsResult.repository.reviews.edges.map(edge => ({ ...edge.node, title: edge.node.user.username}))
-      : []
 
   return (
     <ReviewList
-      reviews={ reviews }
+      reviews={ repository.reviews }
       header={ <RepositoryItem repository={ repository } showLinkButton={ true }/>
     }/>
   )

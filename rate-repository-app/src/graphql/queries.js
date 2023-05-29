@@ -19,9 +19,11 @@ export const REPOSITORIES = gql`
     }
   }
 `
-export const REPOSITORY = gql`
-  query Repository($repositoryId: ID!) {
+
+export const REPOSITORY_REVIEWS = gql`
+  query Reviews($repositoryId: ID!) {
     repository(id: $repositoryId) {
+      id
       fullName,
       description,
       language,
@@ -31,16 +33,6 @@ export const REPOSITORY = gql`
       reviewCount,
       ratingAverage,
       url
-    }
-  }
-`
-
-
-export const REVIEWS = gql`
-  query Reviews($repositoryId: ID!) {
-    repository(id: $repositoryId) {
-      id
-      fullName
       reviews {
         edges {
           node {
