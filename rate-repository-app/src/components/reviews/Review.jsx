@@ -2,6 +2,8 @@ import ItemSeparator from '../ItemSeparator'
 import {StyleSheet, Text, View} from 'react-native'
 import {format} from 'date-fns'
 import theme from '../../theme'
+import Button from '../Button'
+import {useNavigate} from 'react-router-native'
 
 const styles = StyleSheet.create({
   container: {
@@ -36,20 +38,41 @@ const styles = StyleSheet.create({
   },
   reviewText: {
     paddingVertical: 8
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    padding: 8,
+    backgroundColor: 'white'
   }
 })
 
-const Review = ({ review }) => {
+const Review = ({ review, actions=null }) => {
+
   return (
     <>
       <ItemSeparator />
-      <View style={ styles.container }>
-        <Text style={ styles.rating }>{ review.rating }</Text>
-        <View style={ styles.review }>
-          <Text style={ styles.reviewTitle }>{ review.title }</Text>
-          <Text style={ styles.reviewDate }>{ format(new Date(review.createdAt), 'dd.MM.yyyy') }</Text>
-          <Text style={ styles.reviewText }>{ review.text }</Text>
+      <View>
+        <View style={ styles.container }>
+          <Text style={ styles.rating }>{ review.rating }</Text>
+          <View style={ styles.review }>
+            <Text style={ styles.reviewTitle }>{ review.title }</Text>
+            <Text style={ styles.reviewDate }>{ format(new Date(review.createdAt), 'dd.MM.yyyy') }</Text>
+            <Text style={ styles.reviewText }>{ review.text }</Text>
+          </View>
         </View>
+        {actions &&
+          <View style={ styles.buttonContainer }>
+            <Button onPress={ ()=> actions.showRepository(review.repository.id) }
+                    label='View repository'
+                    action='action' type='long'/>
+            <Button onPress={ ()=> actions.deleteReview(review.id) }
+                    label='Delete review'
+                    action='cancel'
+                    type='long'/>
+          </View>
+        }
       </View>
     </>
   )

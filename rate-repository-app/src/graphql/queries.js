@@ -72,6 +72,7 @@ export const AUTHENTICATED_USER = gql`
             rating
             createdAt
             repository {
+              id
               fullName
             }
             user {

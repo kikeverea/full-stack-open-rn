@@ -1,7 +1,7 @@
 import FormikTextInput from '../input/FormikTextInput'
 import ItemSeparator from '../ItemSeparator'
 import FormContainer from '../FormContainer'
-import ActionButton from '../ActionButton'
+import Button from '../Button'
 
 const ReviewForm = ({ onSubmit }) =>
   <FormContainer>
@@ -13,7 +13,7 @@ const ReviewForm = ({ onSubmit }) =>
     <ItemSeparator />
     <FormikTextInput name='review' placeholder='Review' multiline={ true }/>
     <ItemSeparator />
-    <ActionButton onPress={ onSubmit } label='Create a review'/>
+    <Button onPress={ onSubmit } label='Create a review'/>
   </FormContainer>
 
 export default ReviewForm

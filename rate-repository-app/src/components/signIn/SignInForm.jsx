@@ -1,7 +1,7 @@
 import FormikTextInput from '../input/FormikTextInput'
 import ItemSeparator from '../ItemSeparator'
 import FormContainer from '../FormContainer'
-import ActionButton from '../ActionButton'
+import Button from '../Button'
 
 const SignInForm = ({ onSubmit }) =>
   <FormContainer>
@@ -9,7 +9,7 @@ const SignInForm = ({ onSubmit }) =>
     <ItemSeparator />
     <FormikTextInput name='password' placeholder='password' secureTextEntry={ true }/>
     <ItemSeparator />
-    <ActionButton onPress={ onSubmit } label='sign in'/>
+    <Button onPress={ onSubmit } label='sign in'/>
   </FormContainer>
 
 export default SignInForm
