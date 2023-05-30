@@ -29,7 +29,7 @@ const FilterSearchBar = ({ filter }) => {
   );
 }
 
-const RepositoryListContainer = ({ repositories, sort, filter }) => {
+const RepositoryListContainer = ({ repositories, sort, filter, onEndReached }) => {
 
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
@@ -45,10 +45,11 @@ const RepositoryListContainer = ({ repositories, sort, filter }) => {
           <FilterSearchBar filter={ filter }/>
           <SortOptionsPicker sort={ sort }/>
         </>
-    }
-      renderItem={
-        ({item}) => <RepositoryItem repository={item}/>
       }
+      onEndReached={ onEndReached }
+      onEndReachedThreshold={ 0.5 }
+      contentContainerStyle={{ paddingBottom: 20 }} // bottom padding on endReached
+      renderItem={ ({item}) => <RepositoryItem repository={item}/> }
     />
   )
 }

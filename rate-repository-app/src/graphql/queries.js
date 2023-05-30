@@ -30,12 +30,18 @@ const REVIEW = gql `
 
 export const REPOSITORIES = gql`
   ${ REPOSITORY }
-  query Repositories ($orderBy: AllRepositoriesOrderBy!, $orderDirection: OrderDirection!, $searchKeyword: String!) {
-    repositories (orderBy: $orderBy, orderDirection: $orderDirection, searchKeyword: $searchKeyword) {
+  query Repositories ($first: Int, $after: String, $orderBy: AllRepositoriesOrderBy!, $orderDirection: OrderDirection!, $searchKeyword: String!) {
+    repositories (first: $first, after: $after, orderBy: $orderBy, orderDirection: $orderDirection, searchKeyword: $searchKeyword) {
       edges {
         node {
           ...RepositoryFields
-        }
+        },
+        cursor
+      },
+      pageInfo {
+        endCursor,
+        startCursor,
+        hasNextPage
       }
     }
   }

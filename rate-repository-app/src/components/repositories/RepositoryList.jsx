@@ -22,7 +22,7 @@ const RepositoryList = () => {
 
   const [sortBy, setSortBy] = useState(SORT_LATEST)
   const [filter, setFilter] = useState('')
-  const { repositories } = useRepositories(sortBy, filter)
+  const { repositories, fetchMore } = useRepositories(sortBy, filter)
 
   const sortOptions = [ SORT_LATEST, SORT_HIGHEST_RATING, SORT_LOWEST_RATING ]
 
@@ -30,7 +30,8 @@ const RepositoryList = () => {
     <RepositoryListContainer
       repositories={ repositories }
       sort={{ sortBy, onSortChange: setSortBy, sortOptions }}
-      filter={{ filter, setFilter }}/>
+      filter={{ filter, setFilter }}
+      onEndReached={ fetchMore }/>
   );
 };
 
