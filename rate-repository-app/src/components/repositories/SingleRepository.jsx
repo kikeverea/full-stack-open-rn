@@ -5,17 +5,18 @@ import useRepository from '../../hooks/useRepository'
 
 const SingleRepository = () => {
 
-  const repositoryId = useParams()
-  const repository = useRepository(repositoryId)
+  const params = useParams()
+  const { repository, reviews, fetchMore } = useRepository(params.repositoryId)
 
   if (!repository)
     return null
 
   return (
     <ReviewList
-      reviews={ repository.reviews }
-      header={ <RepositoryItem repository={ repository } showLinkButton={ true }/>
-    }/>
+      reviews={ reviews }
+      header={ <RepositoryItem repository={ repository } showLinkButton={ true }/> }
+      onEndReached={ fetchMore }
+    />
   )
 }
 

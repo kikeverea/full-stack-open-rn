@@ -23,14 +23,8 @@ const UserReviews = () => {
 
   const confirmAndDelete = (reviewId) => {
     Alert.alert('Delete review', 'Are you sure you want to delete this review?', [
-      {
-        text: 'CANCEL',
-        style: 'cancel'
-      },
-      {
-        text: 'DELETE',
-        onPress: () => deleteWithId(reviewId)
-      }
+      { text: 'CANCEL', style: 'cancel' },
+      { text: 'DELETE', onPress: () => deleteWithId(reviewId) }
     ])
   }
 
@@ -38,7 +32,8 @@ const UserReviews = () => {
     ? <ReviewList
         reviews={ reviews }
         useTitle={ review => review.repository.fullName }
-        reviewActions={{ showRepository: showRepository, deleteReview: confirmAndDelete }}/>
+        reviewActions={{ showRepository: showRepository, deleteReview: confirmAndDelete }}
+       />
     : null
 }
 

@@ -35,9 +35,9 @@ export const REPOSITORIES = gql`
       edges {
         node {
           ...RepositoryFields
-        },
+        }
         cursor
-      },
+      }
       pageInfo {
         endCursor,
         startCursor,
@@ -50,14 +50,21 @@ export const REPOSITORIES = gql`
 export const REPOSITORY_REVIEWS = gql`
   ${ REPOSITORY}
   ${ REVIEW }
-  query Reviews($repositoryId: ID!) {
+  query Reviews($first: Int, $after: String, $repositoryId: ID!) {
     repository(id: $repositoryId) {
       ...RepositoryFields
-      reviews {
+      reviews(first: $first, after: $after) {
+        totalCount
         edges {
           node {
             ...ReviewFields
-          }
+          },
+          cursor
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
         }
       }
     }
